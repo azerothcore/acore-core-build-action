@@ -1,0 +1,30 @@
+name: 'acore-core-build-action'
+description: 'GitHub Action for AzerothCore core-build'
+author: 'locus313'
+
+runs:
+  using: composite
+  steps:
+    - name: Configure OS
+      run: source ./acore.sh install-deps
+      shell: bash
+      env:
+        CONTINUOUS_INTEGRATION: true
+    - name: Create conf/config.sh
+      run: source ./apps/ci/ci-conf.sh
+      shell: bash
+    - name: Import db
+      run: source ./apps/ci/ci-import-db.sh
+      shell: bash
+    - name: Build
+      run: source ./apps/ci/ci-compile.sh
+      shell: bash
+    - name: Dry run
+      run: source ./apps/ci/ci-worldserver-dry-run.sh
+      shell: bash
+    - name: Check startup errors
+      run: source ./apps/ci/ci-error-check.sh
+      shell: bash
+    - name: Run unit tests
+      run: source ./apps/ci/ci-run-unit-tests.sh
+      shell: bash
