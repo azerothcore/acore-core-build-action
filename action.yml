@@ -17,9 +17,9 @@ runs:
       id: configure_os
       run: |
        CMD="$(source ./acore.sh install-deps)"
-       CMD="${CMD//'%'/'%25'}"
-       CMD="${CMD//$'\n'/'%0A'}"
-       CMD="${CMD//$'\r'/'%0D'}"
+       CMD="${CMD//'%'/%25}"
+       CMD="${CMD//$'\n'/%0A}"
+       CMD="${CMD//$'\r'/%0D}"
        echo "::set-output name=output::$CMD"
       shell: bash
       env:
