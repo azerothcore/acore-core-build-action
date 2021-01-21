@@ -2,11 +2,17 @@ name: 'acore-core-build-action'
 description: 'GitHub Action for AzerothCore core-build'
 author: 'locus313'
 
+outputs:
+	configure-os:
+		desciption: "Configure OS output"
+		value: ${{ steps.configure_os.outputs.output }}
+
 runs:
   using: composite
   steps:
     - name: Configure OS
-      run: source ./acore.sh install-deps
+      id: configure_os
+      run: echo "::set-output name=output::$(source ./acore.sh install-deps)"
       shell: bash
       env:
         CONTINUOUS_INTEGRATION: true
