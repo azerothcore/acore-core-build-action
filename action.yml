@@ -6,6 +6,9 @@ outputs:
   configure-os:
     description: "Configure OS output"
     value: ${{ steps.configure_os.outputs.output }}
+  import-db:
+    description: "Configure OS output"
+    value: ${{ steps.import_db.outputs.output }}
 
 runs:
   using: composite
@@ -20,7 +23,8 @@ runs:
       run: source ./apps/ci/ci-conf.sh
       shell: bash
     - name: Import db
-      run: source ./apps/ci/ci-import-db.sh
+      id: import_db
+      run: echo "::set-output name=output::$(source ./apps/ci/ci-import-db.sh)"
       shell: bash
     - name: Build
       run: source ./apps/ci/ci-compile.sh
