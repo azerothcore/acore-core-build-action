@@ -4,8 +4,8 @@ author: 'locus313'
 
 outputs:
   configure-os:
-	description: "Configure OS output"
-	value: ${{ steps.configure_os.outputs.output }}
+    description: "Configure OS output"
+    value: ${{ steps.configure_os.outputs.output }}
 
 runs:
   using: composite
