@@ -15,6 +15,9 @@ outputs:
   build:
     description: "Build output"
     value: ${{ steps.build.outputs.output }}
+  dry-run:
+    description: "Dry Run output"
+    value: ${{ steps.dry_run.outputs.output }}
 
 runs:
   using: composite
@@ -46,7 +49,7 @@ runs:
     - name: Import db
       id: import_db
       run: |
-       CMD=$(source ./apps/ci/ci-import-db.sh  2>&1)
+       CMD=$(source ./apps/ci/ci-import-db.sh ${*} 2>&1)
        CMDExitCode=${?}
        CMD="${CMD//'%'/'%25'}"
        CMD="${CMD//$'\n'/'%0A'}"
@@ -57,7 +60,7 @@ runs:
     - name: Build
       id: build
       run: |
-       CMD=$(source ./apps/ci/ci-compile.sh  2>&1)
+       CMD=$(source ./apps/ci/ci-compile.sh ${*} 2>&1)
        CMDExitCode=${?}
        CMD="${CMD//'%'/'%25'}"
        CMD="${CMD//$'\n'/'%0A'}"
@@ -66,7 +69,15 @@ runs:
        exit ${CMDExitCode}
       shell: bash
     - name: Dry run
-      run: source ./apps/ci/ci-worldserver-dry-run.sh
+      id: dry_run
+      run: |
+       CMD=$(source ./apps/ci/ci-worldserver-dry-run.sh ${*} 2>&1)
+       CMDExitCode=${?}
+       CMD="${CMD//'%'/'%25'}"
+       CMD="${CMD//$'\n'/'%0A'}"
+       CMD="${CMD//$'\r'/'%0D'}"
+       echo "::set-output name=output::${CMD}"
+       exit ${CMDExitCode}
       shell: bash
     - name: Check startup errors
       run: source ./apps/ci/ci-error-check.sh
