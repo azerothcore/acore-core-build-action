@@ -21,6 +21,9 @@ outputs:
   startup-errors:
     description: "Check Startup Errors output"
     value: ${{ steps.startup_errors.outputs.output }}
+  unit-tests:
+    description: "Run unit tests output"
+    value: ${{ steps.unit_tests.outputs.output }}
 
 runs:
   using: composite
@@ -94,5 +97,13 @@ runs:
        exit ${CMDExitCode}
       shell: bash
     - name: Run unit tests
-      run: source ./apps/ci/ci-run-unit-tests.sh
+      id: unit_tests
+      run: |
+       CMD=$(source ./apps/ci/ci-run-unit-tests.sh ${*} 2>&1)
+       CMDExitCode=${?}
+       CMD="${CMD//'%'/'%25'}"
+       CMD="${CMD//$'\n'/'%0A'}"
+       CMD="${CMD//$'\r'/'%0D'}"
+       echo "::set-output name=output::${CMD}"
+       exit ${CMDExitCode}
       shell: bash
