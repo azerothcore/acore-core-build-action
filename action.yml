@@ -17,10 +17,12 @@ runs:
       id: configure_os
       run: |
        CMD=$(source ./acore.sh install-deps ${*} 2>&1)
+       CMDExitCode=${?}
        CMD="${CMD//'%'/'%25'}"
        CMD="${CMD//$'\n'/'%0A'}"
        CMD="${CMD//$'\r'/'%0D'}"
-       echo "::set-output name=output::${CMD}"
+       echo "::set-output name=output::"
+       exit ${CMDExitCode}
       shell: bash
       env:
         CONTINUOUS_INTEGRATION: true
@@ -30,11 +32,13 @@ runs:
     - name: Import db
       id: import_db
       run: |
-       CMD=$(source ./apps/ci/ci-import-db.sh ${*} 2>&1)
+       CMD=$(source ./apps/ci/ci-import-db.sh  2>&1)
+       CMDExitCode=${?}
        CMD="${CMD//'%'/'%25'}"
        CMD="${CMD//$'\n'/'%0A'}"
        CMD="${CMD//$'\r'/'%0D'}"
-       echo "::set-output name=output::${CMD}"
+       echo "::set-output name=output::"
+       exit ${CMDExitCode}
       shell: bash
     - name: Build
       run: source ./apps/ci/ci-compile.sh
