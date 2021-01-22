@@ -2,29 +2,108 @@ name: 'acore-core-build-action'
 description: 'GitHub Action for AzerothCore core-build'
 author: 'locus313'
 
+outputs:
+  configure-os:
+    description: "Configure OS output"
+    value: ${{ steps.configure_os.outputs.output }}
+  config-sh:
+    description: "Create conf/config.sh output"
+    value: ${{ steps.config_sh.outputs.output }}
+  import-db:
+    description: "Import DB output"
+    value: ${{ steps.import_db.outputs.output }}
+  build:
+    description: "Build output"
+    value: ${{ steps.build.outputs.output }}
+  dry-run:
+    description: "Dry Run output"
+    value: ${{ steps.dry_run.outputs.output }}
+  startup-errors:
+    description: "Check Startup Errors output"
+    value: ${{ steps.startup_errors.outputs.output }}
+  unit-tests:
+    description: "Run unit tests output"
+    value: ${{ steps.unit_tests.outputs.output }}
+
 runs:
   using: composite
   steps:
     - name: Configure OS
-      run: source ./acore.sh install-deps
+      id: configure_os
+      run: |
+       CMD=$(source ./acore.sh install-deps ${*} 2>&1)
+       CMDExitCode=${?}
+       CMD="${CMD//'%'/'%25'}"
+       CMD="${CMD//$'\n'/'%0A'}"
+       CMD="${CMD//$'\r'/'%0D'}"
+       echo "::set-output name=output::${CMD}"
+       exit ${CMDExitCode}
       shell: bash
       env:
         CONTINUOUS_INTEGRATION: true
     - name: Create conf/config.sh
-      run: source ./apps/ci/ci-conf.sh
+      id: config_sh
+      run: |
+       CMD=$(source ./apps/ci/ci-conf.sh ${*} 2>&1)
+       CMDExitCode=${?}
+       CMD="${CMD//'%'/'%25'}"
+       CMD="${CMD//$'\n'/'%0A'}"
+       CMD="${CMD//$'\r'/'%0D'}"
+       echo "::set-output name=output::${CMD}"
+       exit ${CMDExitCode}
       shell: bash
     - name: Import db
-      run: source ./apps/ci/ci-import-db.sh
+      id: import_db
+      run: |
+       CMD=$(source ./apps/ci/ci-import-db.sh ${*} 2>&1)
+       CMDExitCode=${?}
+       CMD="${CMD//'%'/'%25'}"
+       CMD="${CMD//$'\n'/'%0A'}"
+       CMD="${CMD//$'\r'/'%0D'}"
+       echo "::set-output name=output::${CMD}"
+       exit ${CMDExitCode}
       shell: bash
     - name: Build
-      run: source ./apps/ci/ci-compile.sh
+      id: build
+      run: |
+       CMD=$(source ./apps/ci/ci-compile.sh ${*} 2>&1)
+       CMDExitCode=${?}
+       CMD="${CMD//'%'/'%25'}"
+       CMD="${CMD//$'\n'/'%0A'}"
+       CMD="${CMD//$'\r'/'%0D'}"
+       echo "::set-output name=output::${CMD}"
+       exit ${CMDExitCode}
       shell: bash
     - name: Dry run
-      run: source ./apps/ci/ci-worldserver-dry-run.sh
+      id: dry_run
+      run: |
+       CMD=$(source ./apps/ci/ci-worldserver-dry-run.sh ${*} 2>&1)
+       CMDExitCode=${?}
+       CMD="${CMD//'%'/'%25'}"
+       CMD="${CMD//$'\n'/'%0A'}"
+       CMD="${CMD//$'\r'/'%0D'}"
+       echo "::set-output name=output::${CMD}"
+       exit ${CMDExitCode}
       shell: bash
     - name: Check startup errors
-      run: source ./apps/ci/ci-error-check.sh
+      id: startup_errors
+      run: |
+       CMD=$(source ./apps/ci/ci-error-check.sh ${*} 2>&1)
+       CMDExitCode=${?}
+       CMD="${CMD//'%'/'%25'}"
+       CMD="${CMD//$'\n'/'%0A'}"
+       CMD="${CMD//$'\r'/'%0D'}"
+       echo "::set-output name=output::${CMD}"
+       exit ${CMDExitCode}
       shell: bash
     - name: Run unit tests
-      run: source ./apps/ci/ci-run-unit-tests.sh
+      id: unit_tests
+      run: |
+       CMD=$(source ./apps/ci/ci-run-unit-tests.sh ${*} 2>&1)
+       CMDExitCode=${?}
+       CMD="${CMD//'%'/'%25'}"
+       CMD="${CMD//$'\n'/'%0A'}"
+       CMD="${CMD//$'\r'/'%0D'}"
+       echo "::set-output name=output::${CMD}"
+       exit ${CMDExitCode}
       shell: bash
