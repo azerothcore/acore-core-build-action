@@ -6,8 +6,11 @@ outputs:
   configure-os:
     description: "Configure OS output"
     value: ${{ steps.configure_os.outputs.output }}
+  config-sh:
+    description: "Create conf/config.sh output"
+    value: ${{ steps.config_sh.outputs.output }}
   import-db:
-    description: "Configure OS output"
+    description: "Import DB output"
     value: ${{ steps.import_db.outputs.output }}
 
 runs:
@@ -21,13 +24,21 @@ runs:
        CMD="${CMD//'%'/'%25'}"
        CMD="${CMD//$'\n'/'%0A'}"
        CMD="${CMD//$'\r'/'%0D'}"
-       echo "::set-output name=output::"
+       echo "::set-output name=output::${CMD}"
        exit ${CMDExitCode}
       shell: bash
       env:
         CONTINUOUS_INTEGRATION: true
     - name: Create conf/config.sh
-      run: source ./apps/ci/ci-conf.sh
+      id: config_sh
+      run: |
+       CMD=$(source ./apps/ci/ci-conf.sh ${*} 2>&1)
+       CMDExitCode=${?}
+       CMD="${CMD//'%'/'%25'}"
+       CMD="${CMD//$'\n'/'%0A'}"
+       CMD="${CMD//$'\r'/'%0D'}"
+       echo "::set-output name=output::${CMD}"
+       exit ${CMDExitCode}
       shell: bash
     - name: Import db
       id: import_db
@@ -37,7 +48,7 @@ runs:
        CMD="${CMD//'%'/'%25'}"
        CMD="${CMD//$'\n'/'%0A'}"
        CMD="${CMD//$'\r'/'%0D'}"
-       echo "::set-output name=output::"
+       echo "::set-output name=output::${CMD}"
        exit ${CMDExitCode}
       shell: bash
     - name: Build
