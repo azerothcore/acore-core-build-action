@@ -16,12 +16,7 @@ runs:
     - name: Configure OS
       id: configure_os
       run: |
-       source ./acore.sh install-deps > configure_os.out
-       CMD="$(cat configure_os.out)"
-       CMD="${CMD//'%'/''%25'}"
-       CMD="${CMD//$'\n'/'%0A'}"
-       CMD="${CMD//$'\r'/'%0D'}"
-       echo "::set-output name=output::$(echo "$CMD")"
+       echo "::set-output name=output::$(source ./acore.sh install-deps)"
       shell: bash
       env:
         CONTINUOUS_INTEGRATION: true
