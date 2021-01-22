@@ -12,6 +12,9 @@ outputs:
   import-db:
     description: "Import DB output"
     value: ${{ steps.import_db.outputs.output }}
+  build:
+    description: "Build output"
+    value: ${{ steps.build.outputs.output }}
 
 runs:
   using: composite
@@ -52,7 +55,15 @@ runs:
        exit ${CMDExitCode}
       shell: bash
     - name: Build
-      run: source ./apps/ci/ci-compile.sh
+      id: build
+      run: |
+       CMD=$(source ./apps/ci/ci-compile.sh  2>&1)
+       CMDExitCode=${?}
+       CMD="${CMD//'%'/'%25'}"
+       CMD="${CMD//$'\n'/'%0A'}"
+       CMD="${CMD//$'\r'/'%0D'}"
+       echo "::set-output name=output::${CMD}"
+       exit ${CMDExitCode}
       shell: bash
     - name: Dry run
       run: source ./apps/ci/ci-worldserver-dry-run.sh
