@@ -18,6 +18,9 @@ outputs:
   dry-run:
     description: "Dry Run output"
     value: ${{ steps.dry_run.outputs.output }}
+  startup-errors:
+    description: "Check Startup Errors output"
+    value: ${{ steps.startup_errors.outputs.output }}
 
 runs:
   using: composite
@@ -80,7 +83,15 @@ runs:
        exit ${CMDExitCode}
       shell: bash
     - name: Check startup errors
-      run: source ./apps/ci/ci-error-check.sh
+      id: startup_errors
+      run: |
+       CMD=$(source ./apps/ci/ci-error-check.sh ${*} 2>&1)
+       CMDExitCode=${?}
+       CMD="${CMD//'%'/'%25'}"
+       CMD="${CMD//$'\n'/'%0A'}"
+       CMD="${CMD//$'\r'/'%0D'}"
+       echo "::set-output name=output::${CMD}"
+       exit ${CMDExitCode}
       shell: bash
     - name: Run unit tests
       run: source ./apps/ci/ci-run-unit-tests.sh
