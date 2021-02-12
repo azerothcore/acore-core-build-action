@@ -34,8 +34,10 @@ runs:
        set -e
        CMD=$(source ./acore.sh install-deps ${*} 2>&1)
        CMDExitCode=${?}
-       echo "${CMD}"
-       if [ -z "$CMD" ]; then
+       if [ ! ${CMDExitCode} == 0 ]; then
+          echo "${CMD}"
+       fi
+       if [ -z "${CMD}" ]; then
           echo "output is empty"
           exit 1
        else
@@ -54,8 +56,10 @@ runs:
        set -e
        CMD=$(source ./apps/ci/ci-conf.sh ${*} 2>&1)
        CMDExitCode=${?}
-       echo "${CMD}"
-       if [ -z "$CMD" ]; then
+       if [ ! ${CMDExitCode} == 0 ]; then
+          echo "${CMD}"
+       fi
+       if [ -z "${CMD}" ]; then
           echo "output is empty"
           exit 1
        else
@@ -72,7 +76,9 @@ runs:
        set -e
        CMD=$(source ./apps/ci/ci-import-db.sh ${*})
        CMDExitCode=${?}
-       echo "${CMD}"
+       if [ ! ${CMDExitCode} == 0 ]; then
+          echo "${CMD}"
+       fi
        if [ -z "${CMD}" ]; then
           echo "output is empty"
           exit 1
@@ -90,7 +96,9 @@ runs:
        set -e
        CMD=$(source ./apps/ci/ci-compile.sh ${*} 2>&1)
        CMDExitCode=${?}
-       echo "${CMD}"
+       if [ ! ${CMDExitCode} == 0 ]; then
+          echo "${CMD}"
+       fi
        if [ -z "$CMD" ]; then
           echo "output is empty"
           exit 1
@@ -108,7 +116,9 @@ runs:
        set -e
        CMD=$(source ./apps/ci/ci-worldserver-dry-run.sh ${*} 2>&1)
        CMDExitCode=${?}
-       echo "${CMD}"
+       if [ ! ${CMDExitCode} == 0 ]; then
+          echo "${CMD}"
+       fi
        if [ -z "$CMD" ]; then
           echo "output is empty"
           exit 1
@@ -126,7 +136,9 @@ runs:
        set -e
        CMD=$(source ./apps/ci/ci-error-check.sh ${*} 2>&1)
        CMDExitCode=${?}
-       echo "${CMD}"
+       if [ ! ${CMDExitCode} == 0 ]; then
+          echo "${CMD}"
+       fi
        if [ -z "$CMD" ]; then
           echo "output is empty"
           exit 1
@@ -144,7 +156,9 @@ runs:
        set -e
        CMD=$(source ./apps/ci/ci-run-unit-tests.sh ${*} 2>&1)
        CMDExitCode=${?}
-       echo "${CMD}"
+       if [ ! ${CMDExitCode} == 0 ]; then
+          echo "${CMD}"
+       fi
        if [ -z "$CMD" ]; then
           echo "output is empty"
           exit 1
