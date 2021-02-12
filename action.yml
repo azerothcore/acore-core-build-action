@@ -65,6 +65,7 @@ runs:
     - name: Import db
       id: import_db
       run: |
+       set -e
        CMD=$(source ./apps/ci/ci-import-db.sh ${*})
        CMDExitCode=${?}
        echo "${CMD}"
