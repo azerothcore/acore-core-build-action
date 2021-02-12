@@ -31,8 +31,10 @@ runs:
     - name: Configure OS
       id: configure_os
       run: |
+       set -e
        CMD=$(source ./acore.sh install-deps ${*} 2>&1)
        CMDExitCode=${?}
+       echo "${CMD}"
        if [ -z "$CMD" ]; then
           echo "output is empty"
           exit 1
@@ -49,8 +51,10 @@ runs:
     - name: Create conf/config.sh
       id: config_sh
       run: |
+       set -e
        CMD=$(source ./apps/ci/ci-conf.sh ${*} 2>&1)
        CMDExitCode=${?}
+       echo "${CMD}"
        if [ -z "$CMD" ]; then
           echo "output is empty"
           exit 1
@@ -83,8 +87,10 @@ runs:
     - name: Build
       id: build
       run: |
+       set -e
        CMD=$(source ./apps/ci/ci-compile.sh ${*} 2>&1)
        CMDExitCode=${?}
+       echo "${CMD}"
        if [ -z "$CMD" ]; then
           echo "output is empty"
           exit 1
@@ -99,8 +105,10 @@ runs:
     - name: Dry run
       id: dry_run
       run: |
+       set -e
        CMD=$(source ./apps/ci/ci-worldserver-dry-run.sh ${*} 2>&1)
        CMDExitCode=${?}
+       echo "${CMD}"
        if [ -z "$CMD" ]; then
           echo "output is empty"
           exit 1
@@ -115,8 +123,10 @@ runs:
     - name: Check startup errors
       id: startup_errors
       run: |
+       set -e
        CMD=$(source ./apps/ci/ci-error-check.sh ${*} 2>&1)
        CMDExitCode=${?}
+       echo "${CMD}"
        if [ -z "$CMD" ]; then
           echo "output is empty"
           exit 1
@@ -131,8 +141,10 @@ runs:
     - name: Run unit tests
       id: unit_tests
       run: |
+       set -e
        CMD=$(source ./apps/ci/ci-run-unit-tests.sh ${*} 2>&1)
        CMDExitCode=${?}
+       echo "${CMD}"
        if [ -z "$CMD" ]; then
           echo "output is empty"
           exit 1
