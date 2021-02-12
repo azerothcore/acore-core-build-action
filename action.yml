@@ -33,11 +33,16 @@ runs:
       run: |
        CMD=$(source ./acore.sh install-deps ${*} 2>&1)
        CMDExitCode=${?}
-       CMD="${CMD//'%'/'%25'}"
-       CMD="${CMD//$'\n'/'%0A'}"
-       CMD="${CMD//$'\r'/'%0D'}"
-       echo "::set-output name=output::${CMD}"
-       exit ${CMDExitCode}
+       if [ -z $CMD ]; then
+          echo "output is empty"
+          exit 1
+       else
+          CMD="${CMD//'%'/'%25'}"
+          CMD="${CMD//$'\n'/'%0A'}"
+          CMD="${CMD//$'\r'/'%0D'}"
+          echo "::set-output name=output::${CMD}"
+          exit ${CMDExitCode}
+       fi
       shell: bash
       env:
         CONTINUOUS_INTEGRATION: true
@@ -46,64 +51,94 @@ runs:
       run: |
        CMD=$(source ./apps/ci/ci-conf.sh ${*} 2>&1)
        CMDExitCode=${?}
-       CMD="${CMD//'%'/'%25'}"
-       CMD="${CMD//$'\n'/'%0A'}"
-       CMD="${CMD//$'\r'/'%0D'}"
-       echo "::set-output name=output::${CMD}"
-       exit ${CMDExitCode}
+       if [ -z $CMD ]; then
+          echo "output is empty"
+          exit 1
+       else
+          CMD="${CMD//'%'/'%25'}"
+          CMD="${CMD//$'\n'/'%0A'}"
+          CMD="${CMD//$'\r'/'%0D'}"
+          echo "::set-output name=output::${CMD}"
+          exit ${CMDExitCode}
+       fi
       shell: bash
     - name: Import db
       id: import_db
       run: |
        CMD=$(source ./apps/ci/ci-import-db.sh ${*} 2>&1)
        CMDExitCode=${?}
-       CMD="${CMD//'%'/'%25'}"
-       CMD="${CMD//$'\n'/'%0A'}"
-       CMD="${CMD//$'\r'/'%0D'}"
-       echo "::set-output name=output::${CMD}"
-       exit ${CMDExitCode}
+       if [ -z $CMD ]; then
+          echo "output is empty"
+          exit 1
+       else
+          CMD="${CMD//'%'/'%25'}"
+          CMD="${CMD//$'\n'/'%0A'}"
+          CMD="${CMD//$'\r'/'%0D'}"
+          echo "::set-output name=output::${CMD}"
+          exit ${CMDExitCode}
+       fi
       shell: bash
     - name: Build
       id: build
       run: |
        CMD=$(source ./apps/ci/ci-compile.sh ${*} 2>&1)
        CMDExitCode=${?}
-       CMD="${CMD//'%'/'%25'}"
-       CMD="${CMD//$'\n'/'%0A'}"
-       CMD="${CMD//$'\r'/'%0D'}"
-       echo "::set-output name=output::${CMD}"
-       exit ${CMDExitCode}
+       if [ -z $CMD ]; then
+          echo "output is empty"
+          exit 1
+       else
+          CMD="${CMD//'%'/'%25'}"
+          CMD="${CMD//$'\n'/'%0A'}"
+          CMD="${CMD//$'\r'/'%0D'}"
+          echo "::set-output name=output::${CMD}"
+          exit ${CMDExitCode}
+       fi
       shell: bash
     - name: Dry run
       id: dry_run
       run: |
        CMD=$(source ./apps/ci/ci-worldserver-dry-run.sh ${*} 2>&1)
        CMDExitCode=${?}
-       CMD="${CMD//'%'/'%25'}"
-       CMD="${CMD//$'\n'/'%0A'}"
-       CMD="${CMD//$'\r'/'%0D'}"
-       echo "::set-output name=output::${CMD}"
-       exit ${CMDExitCode}
+       if [ -z $CMD ]; then
+          echo "output is empty"
+          exit 1
+       else
+          CMD="${CMD//'%'/'%25'}"
+          CMD="${CMD//$'\n'/'%0A'}"
+          CMD="${CMD//$'\r'/'%0D'}"
+          echo "::set-output name=output::${CMD}"
+          exit ${CMDExitCode}
+       fi
       shell: bash
     - name: Check startup errors
       id: startup_errors
       run: |
        CMD=$(source ./apps/ci/ci-error-check.sh ${*} 2>&1)
        CMDExitCode=${?}
-       CMD="${CMD//'%'/'%25'}"
-       CMD="${CMD//$'\n'/'%0A'}"
-       CMD="${CMD//$'\r'/'%0D'}"
-       echo "::set-output name=output::${CMD}"
-       exit ${CMDExitCode}
+       if [ -z $CMD ]; then
+          echo "output is empty"
+          exit 1
+       else
+          CMD="${CMD//'%'/'%25'}"
+          CMD="${CMD//$'\n'/'%0A'}"
+          CMD="${CMD//$'\r'/'%0D'}"
+          echo "::set-output name=output::${CMD}"
+          exit ${CMDExitCode}
+       fi
       shell: bash
     - name: Run unit tests
       id: unit_tests
       run: |
        CMD=$(source ./apps/ci/ci-run-unit-tests.sh ${*} 2>&1)
        CMDExitCode=${?}
-       CMD="${CMD//'%'/'%25'}"
-       CMD="${CMD//$'\n'/'%0A'}"
-       CMD="${CMD//$'\r'/'%0D'}"
-       echo "::set-output name=output::${CMD}"
-       exit ${CMDExitCode}
+       if [ -z $CMD ]; then
+          echo "output is empty"
+          exit 1
+       else
+          CMD="${CMD//'%'/'%25'}"
+          CMD="${CMD//$'\n'/'%0A'}"
+          CMD="${CMD//$'\r'/'%0D'}"
+          echo "::set-output name=output::${CMD}"
+          exit ${CMDExitCode}
+       fi
       shell: bash
