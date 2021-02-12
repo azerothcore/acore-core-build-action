@@ -81,7 +81,6 @@ runs:
     - name: Build
       id: build
       run: |
-       set -e
        CMD=$(source ./apps/ci/ci-compile.sh ${*} 2>&1)
        CMDExitCode=${?}
        if [ ! ${CMDExitCode} == 0 ]; then
