@@ -67,8 +67,8 @@ runs:
       run: |
        CMD=$(source ./apps/ci/ci-import-db.sh ${*} 2>&1)
        CMDExitCode=${?}
-       echo "$CMD"
-       if [ -z "$CMD" ]; then
+       echo "${CMD}"
+       if [ -z "${CMD}" ]; then
           echo "output is empty"
           exit 1
        else
