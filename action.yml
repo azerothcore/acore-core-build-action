@@ -36,10 +36,6 @@ runs:
        CMDExitCode=${?}
        if [ ! ${CMDExitCode} == 0 ]; then
           echo "${CMD}"
-       fi
-       if [ -z "${CMD}" ]; then
-          echo "output is empty"
-          exit 1
        else
           CMD="${CMD//'%'/'%25'}"
           CMD="${CMD//$'\n'/'%0A'}"
@@ -58,10 +54,6 @@ runs:
        CMDExitCode=${?}
        if [ ! ${CMDExitCode} == 0 ]; then
           echo "${CMD}"
-       fi
-       if [ -z "${CMD}" ]; then
-          echo "output is empty"
-          exit 1
        else
           CMD="${CMD//'%'/'%25'}"
           CMD="${CMD//$'\n'/'%0A'}"
@@ -78,10 +70,6 @@ runs:
        CMDExitCode=${?}
        if [ ! ${CMDExitCode} == 0 ]; then
           echo "${CMD}"
-       fi
-       if [ -z "${CMD}" ]; then
-          echo "output is empty"
-          exit 1
        else
           CMD="${CMD//'%'/'%25'}"
           CMD="${CMD//$'\n'/'%0A'}"
@@ -98,10 +86,6 @@ runs:
        CMDExitCode=${?}
        if [ ! ${CMDExitCode} == 0 ]; then
           echo "${CMD}"
-       fi
-       if [ -z "$CMD" ]; then
-          echo "output is empty"
-          exit 1
        else
           CMD="${CMD//'%'/'%25'}"
           CMD="${CMD//$'\n'/'%0A'}"
@@ -118,10 +102,6 @@ runs:
        CMDExitCode=${?}
        if [ ! ${CMDExitCode} == 0 ]; then
           echo "${CMD}"
-       fi
-       if [ -z "$CMD" ]; then
-          echo "output is empty"
-          exit 1
        else
           CMD="${CMD//'%'/'%25'}"
           CMD="${CMD//$'\n'/'%0A'}"
@@ -138,10 +118,6 @@ runs:
        CMDExitCode=${?}
        if [ ! ${CMDExitCode} == 0 ]; then
           echo "${CMD}"
-       fi
-       if [ -z "$CMD" ]; then
-          echo "output is empty"
-          exit 1
        else
           CMD="${CMD//'%'/'%25'}"
           CMD="${CMD//$'\n'/'%0A'}"
@@ -158,10 +134,6 @@ runs:
        CMDExitCode=${?}
        if [ ! ${CMDExitCode} == 0 ]; then
           echo "${CMD}"
-       fi
-       if [ -z "$CMD" ]; then
-          echo "output is empty"
-          exit 1
        else
           CMD="${CMD//'%'/'%25'}"
           CMD="${CMD//$'\n'/'%0A'}"
