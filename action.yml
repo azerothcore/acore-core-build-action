@@ -33,7 +33,7 @@ runs:
       run: |
        CMD=$(source ./acore.sh install-deps ${*} 2>&1)
        CMDExitCode=${?}
-       if [ -z $CMD ]; then
+       if [ -z "$CMD" ]; then
           echo "output is empty"
           exit 1
        else
@@ -51,7 +51,7 @@ runs:
       run: |
        CMD=$(source ./apps/ci/ci-conf.sh ${*} 2>&1)
        CMDExitCode=${?}
-       if [ -z $CMD ]; then
+       if [ -z "$CMD" ]; then
           echo "output is empty"
           exit 1
        else
@@ -67,7 +67,7 @@ runs:
       run: |
        CMD=$(source ./apps/ci/ci-import-db.sh ${*} 2>&1)
        CMDExitCode=${?}
-       if [ -z $CMD ]; then
+       if [ -z "$CMD" ]; then
           echo "output is empty"
           exit 1
        else
@@ -83,7 +83,7 @@ runs:
       run: |
        CMD=$(source ./apps/ci/ci-compile.sh ${*} 2>&1)
        CMDExitCode=${?}
-       if [ -z $CMD ]; then
+       if [ -z "$CMD" ]; then
           echo "output is empty"
           exit 1
        else
@@ -99,7 +99,7 @@ runs:
       run: |
        CMD=$(source ./apps/ci/ci-worldserver-dry-run.sh ${*} 2>&1)
        CMDExitCode=${?}
-       if [ -z $CMD ]; then
+       if [ -z "$CMD" ]; then
           echo "output is empty"
           exit 1
        else
@@ -115,7 +115,7 @@ runs:
       run: |
        CMD=$(source ./apps/ci/ci-error-check.sh ${*} 2>&1)
        CMDExitCode=${?}
-       if [ -z $CMD ]; then
+       if [ -z "$CMD" ]; then
           echo "output is empty"
           exit 1
        else
@@ -131,7 +131,7 @@ runs:
       run: |
        CMD=$(source ./apps/ci/ci-run-unit-tests.sh ${*} 2>&1)
        CMDExitCode=${?}
-       if [ -z $CMD ]; then
+       if [ -z "$CMD" ]; then
           echo "output is empty"
           exit 1
        else
